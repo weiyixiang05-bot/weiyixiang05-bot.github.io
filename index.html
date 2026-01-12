@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>合租电费分摊计算器</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .calculator-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+        .input-group {
+            margin-bottom: 18px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+        input:focus {
+            border-color: #409eff;
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #409eff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #337ecc;
+        }
+        .result-area {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            display: none;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .result-label {
+            color: #555;
+        }
+        .result-value {
+            color: #333;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <h1>合租电费分摊计算器</h1>
+        <div class="input-group">
+            <label for="total-electricity">本月总电费 (A)</label>
+            <input type="number" id="total-electricity" placeholder="请输入总电费金额" step="0.01" required>
+        </div>
+        <div class="input-group">
+            <label for="unit-price">一度电费用 (B)</label>
+            <input type="number" id="unit-price" placeholder="请输入每度电单价" step="0.01" required>
+        </div>
+        <div class="input-group">
+            <label for="li-degree">李子杰空调度数 (C)</label>
+            <input type="number" id="li-degree" placeholder="请输入空调使用度数" step="0.01" required>
+        </div>
+        <div class="input-group">
+            <label for="zhang-degree">张桉邦空调度数 (D)</label>
+            <input type="number" id="zhang-degree" placeholder="请输入空调使用度数" step="0.01" required>
+        </div>
+        <div class="input-group">
+            <label for="zhou-degree">周翔空调度数 (E)</label>
+            <input type="number" id="zhou-degree" placeholder="请输入空调使用度数" step="0.01" required>
+        </div>
+        <button onclick="calculateElectricity()">一键计算</button>
+        <div class="result-area" id="result-area">
+            <div class="result-item">
+                <span class="result-label">李子杰空调费用 (F)</span>
+                <span class="result-value" id="li-cost">-</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">张桉邦空调费用 (G)</span>
+                <span class="result-value" id="zhang-cost">-</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">周翔空调费用 (H)</span>
+                <span class="result-value" id="zhou-cost">-</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">共同公摊费用 (I)</span>
+                <span class="result-value" id="common-cost">-</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        function calculateElectricity() {
+            // 获取输入值
+            const A = parseFloat(document.getElementById('total-electricity').value);
+            const B = parseFloat(document.getElementById('unit-price').value);
+            const C = parseFloat(document.getElementById('li-degree').value);
+            const D = parseFloat(document.getElementById('zhang-degree').value);
+            const E = parseFloat(document.getElementById('zhou-degree').value);
+            // 计算各项费用
+            const F = (B * C).toFixed(2);
+            const G = (B * D).toFixed(2);
+            const H = (B * E).toFixed(2);
+            const I = (A - F - G - H).toFixed(2);
+            // 显示结果
+            document.getElementById('li-cost').textContent = F + ' 元';
+            document.getElementById('zhang-cost').textContent = G + ' 元';
+            document.getElementById('zhou-cost').textContent = H + ' 元';
+            document.getElementById('common-cost').textContent = I + ' 元';
+            document.getElementById('result-area').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
+
